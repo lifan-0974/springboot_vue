@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lllfff.mapper.LeaverMapper">
+<resultMap id="PeopleAndLeave" type="com.lllfff.model.Leaver" autoMapping="true">
+    <id property="lid" column="lid"></id>
+    <collection property="people" ofType="com.lllfff.model.People" autoMapping="true">
+        <id property="pid" column="pid"></id>
+    </collection>
+</resultMap>
+    <select id="selectall" resultMap="PeopleAndLeave" >
+     select  * from leaver,People where leaver.pid=People.pid
+    </select>
+    <select id="selectByname" resultMap="PeopleAndLeave" resultType="com.lllfff.model.Leaver">
+      select  * from leaver,People where leaver.pid=People.pid and People.pid=#{pid}
+    </select>
+    <select id="selectByid" resultType="com.lllfff.model.Leaver">
+     select  * from leaver where lid=#{lid}
+    </select>
+    <insert id="insert" parameterType="com.lllfff.model.Leaver">
+        insert into leaver(ltitle,lnewtime,loidtime,cause,pid,lstatic,branch)values (#{ltitle},#{lnewtime},#{loidtime},#{cause},#{pid},1,#{branch})
+    </insert>
+    <update id="upstatic" parameterType="com.lllfff.model.Leaver">
+    update leaver set ltitle=#{ltitle},lnewtime=#{lnewtime},loidtime=#{loidtime},cause=#{cause},approver=#{approver},approvertime=#{approvertime},unify=#{unify} where  lid=#{lid}
+    </update>
+    <update id="upstatic1" parameterType="com.lllfff.model.Leaver">
+    update leaver set unify=1 where  lid=#{lid}
+    </update>
+    <update id="upstatic2" parameterType="com.lllfff.model.Leaver">
+    update leaver set unify=0 where  lid=#{lid}
+    </update>
+    <update id="update" parameterType="com.lllfff.model.Leaver">
+    update leaver set ltitle=#{ltitle},lnewtime=#{lnewtime},loidtime=#{loidtime},cause=#{cause} where  lid=#{lid}
+    </update>
+<delete id="delete" parameterType="com.lllfff.model.Leaver">
+    delete  from leaver where lid=#{lid}
+</delete>
+</mapper>
